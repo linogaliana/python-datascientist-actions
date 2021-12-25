@@ -51,14 +51,16 @@ runs:
           username: ${{ inputs.DOCKERHUB_USERNAME }} 
           password: ${{ inputs.DOCKERHUB_TOKEN }}
       - 
-        if: ${{ ${{ inputs.environment-yaml-path }} != "environment.yml" }}
         name: Remove environment.yml if it exists
+#        if: ${{ ${{ inputs.environment-yaml-path }} != "environment.yml" }}
         run: |
           rm environment.yml
+        shell: bash
       - 
         name: Rename file
         run: |
           mv ${{ inputs.environment-yaml-path }} environment.yml
+        shell: bash
       -
         name: Build and push
 #        if: ${{ github.repository == ${{ inputs.github-repository }} }}
