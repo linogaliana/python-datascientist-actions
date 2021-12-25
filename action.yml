@@ -17,25 +17,39 @@ inputs:
     description: 'Docker image on Dockerhub used for publication'
     required: false
     default: 'linogaliana/python-datascientist:latest'
+  DOCKERHUB_USERNAME:  # id of input
+    description: 'Dockerhub username'
+    required: true
+    default: '' #replace with ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKERHUB_TOKEN:  # id of input
+    description: 'Dockerhub token'
+    required: true
+    default: '' #replace with ${{ secrets.DOCKERHUB_TOKEN }}
+  PAT:  # id of input
+    description: 'Github PAT'
+    required: true
+    default: '' #${{ secrets.PAT }}
+
+
 runs:
   using: "composite"
   steps:
       - uses: actions/checkout@v1
       -
         name: Set up QEMU
-        if: ${{ github.repository == ${{ inputs.github-repository }} }}
+#        if: ${{ github.repository == ${{ inputs.github-repository }} }}
         uses: docker/setup-qemu-action@v1
       -
         name: Set up Docker Buildx
-        if: ${{ github.repository == ${{ inputs.github-repository }} }}
+#        if: ${{ github.repository == ${{ inputs.github-repository }} }}
         uses: docker/setup-buildx-action@v1
       -
         name: Login to DockerHub
-        if: ${{ github.repository == ${{ inputs.github-repository }} }}
+#        if: ${{ github.repository == ${{ inputs.github-repository }} }}
         uses: docker/login-action@v1 
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ inputs.DOCKERHUB_USERNAME }} 
+          password: ${{ inputs.DOCKERHUB_TOKEN }}
       - 
         if: ${{ ${{ inputs.environment-yaml-path }} != "environment.yml" }}
         name: Remove environment.yml if it exists
@@ -47,11 +61,11 @@ runs:
           mv ${{ inputs.environment-yaml-path }} environment.yml
       -
         name: Build and push
-        if: ${{ github.repository == ${{ inputs.github-repository }} }}
+#        if: ${{ github.repository == ${{ inputs.github-repository }} }}
         id: docker_build
         uses: docker/build-push-action@v2
         env:
-          GITHUB_PAT: ${{ secrets.PAT }}
+          GITHUB_PAT: ${{ inputs.PAT }} #${{ secrets.PAT }}
         with:
           file: ${{ inputs.dockerfile-path }}
           push: true
