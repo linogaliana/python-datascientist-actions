@@ -46,3 +46,4 @@ runs:
          git commit -m "Automated changes";
          git pull
          git push
+        shell: bash
