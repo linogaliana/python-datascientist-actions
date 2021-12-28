@@ -43,6 +43,6 @@ runs:
         shell: bash
       - uses: actions/upload-artifact@v2
         with:
-          name: md-reste
+          name: md-reste${{ inputs.suffix }}
           path: ./content/course/*.md
           retention-days: 1
