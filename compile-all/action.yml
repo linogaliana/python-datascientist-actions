@@ -29,6 +29,7 @@ runs:
         if: ${{ inputs.modify-chunk }}
         run: |
          python build/modifmd.py
+        shell: bash
       - name: Build to md
         run: |
           rm -rf manipulation/ visualisation/ modelisation/ NLP/

@@ -5,6 +5,10 @@ inputs:
     description: 'Name of the directory that should be built'
     required: true
     default: 'manipulation'
+  modify-chunk:
+    description: 'Should we modify some options to print more chunks'
+    required: false
+    default: false
 
 runs:
   using: "composite"
@@ -19,6 +23,11 @@ runs:
       run: |
         conda info
         conda list
+      shell: bash
+    - name: Modif Rmd echo status
+      if: ${{ inputs.modify-chunk }}
+      run: |
+        python build/modifmd.py
       shell: bash
     - name: Build to md
       run: |
