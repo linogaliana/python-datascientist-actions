@@ -28,4 +28,21 @@ runs:
          cp -R . ../${{ inputs.alias }}
          cd ..
         shell: bash
-
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Notebooks
+          path: temp/
+      - name: Commit new notebooks
+        if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+        env:
+          BRANCHE_REF: ${{ inputs.BRANCHE_REF }}
+        run: |
+         git config user.name 'github-actions[bot]'
+         git config user.email 'github-actions[bot]@users.noreply.github.com'
+         # git config user.email github-actions@github.com
+         #git checkout ${BRANCHE_REF}
+         git status
+         git add ${{ inputs.directory-name }}/**/*.ipynb;
+         git commit -m "Automated changes";
+         git pull
+         git push
