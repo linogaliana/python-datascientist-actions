@@ -13,6 +13,10 @@ inputs:
     description: 'Netlify site ID'
     required: true
     default: ''
+  suffix:
+    description: 'Suffix for the artifacts'
+    required: false
+    default: ''
 
 runs:
   using: "composite"
@@ -25,23 +29,23 @@ runs:
           repository: ${{github.event.pull_request.head.repo.full_name}}
       - uses: actions/download-artifact@v2
         with:
-          name: md-reste
+          name: md-reste${{ inputs.suffix }}
           path: ./content/course
       - uses: actions/download-artifact@v2
         with:
-          name: md-manipulation
+          name: md-manipulation${{ inputs.suffix }}
           path: ./content/course/manipulation
       - uses: actions/download-artifact@v2
         with:
-          name: md-visualisation
+          name: md-visualisation${{ inputs.suffix }}
           path: ./content/course/visualisation
       - uses: actions/download-artifact@v2
         with:
-          name: md-modelisation
+          name: md-modelisation${{ inputs.suffix }}
           path: ./content/course/modelisation
       - uses: actions/download-artifact@v2
         with:
-          name: md-NLP
+          name: md-NLP${{ inputs.suffix }}
           path: ./content/course/NLP
       - name: Clean files with Python function
         run: |

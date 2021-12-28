@@ -9,6 +9,10 @@ inputs:
     description: 'Should we modify some options to print more chunks'
     required: false
     default: false
+  suffix:
+    description: 'Suffix for the artifacts'
+    required: false
+    default: ''
 
 runs:
   using: "composite"
@@ -37,6 +41,6 @@ runs:
       shell: bash
     - uses: actions/upload-artifact@v2
       with:
-        name: md-${{ inputs.directory-name }}
+        name: md-${{ inputs.directory-name }}${{ inputs.suffix }}
         path: ./content/course/${{ inputs.directory-name }}
         retention-days: 1
