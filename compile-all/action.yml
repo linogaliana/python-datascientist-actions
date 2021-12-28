@@ -3,7 +3,7 @@ description: 'Build Rmd with Python code for hugo website'
 inputs:
   directory-name:  # id of input
     description: 'Name of the directory that should be built'
-    required: true
+    required: false
     default: 'manipulation'
 
 runs:
