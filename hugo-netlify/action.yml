@@ -1,0 +1,104 @@
+name: 'Build Rmd with Python'
+description: 'Build Rmd with Python code for hugo website'
+inputs:
+  alias:  # id of input
+    description: 'Name of the alias for preprod deployment'
+    required: true
+    default: ''
+  NETLIFY_AUTH_TOKEN:  # id of input
+    description: 'Netlify AUTH_TOKEN'
+    required: true
+    default: ''
+  NETLIFY_SITE_ID:  # id of input
+    description: 'Netlify site ID'
+    required: true
+    default: ''
+
+runs:
+  using: "composite"
+  steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{github.event.pull_request.head.repo.full_name}}
+      - uses: actions/download-artifact@v2
+        with:
+          name: md-reste
+          path: ./content/course
+      - uses: actions/download-artifact@v2
+        with:
+          name: md-manipulation
+          path: ./content/course/manipulation
+      - uses: actions/download-artifact@v2
+        with:
+          name: md-visualisation
+          path: ./content/course/visualisation
+      - uses: actions/download-artifact@v2
+        with:
+          name: md-modelisation
+          path: ./content/course/modelisation
+      - uses: actions/download-artifact@v2
+        with:
+          name: md-nlp
+          path: ./content/course/NLP
+      - name: Clean files with Python function
+        run: |
+         rm -rf "./temp"
+         mkdir -p temp
+         mkdir -p notebooks
+         pip install matplotlib wordcloud nltk
+         python build/cleanmd.py
+         python build/wc_website.py
+      - name: Check hugo installed
+        run: |
+          Rscript -e 'blogdown::install_hugo("0.83.0", force = TRUE)'
+          Rscript -e 'print(blogdown:::hugo_version())'
+      - name: Render blog
+        run: |
+          Rscript -e 'source("./build/netlify.R")'
+      - name: Install npm
+        if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+        uses: actions/setup-node@v2          
+        with:
+          node-version: '12'        
+      - name: Deploy to Netlify
+        if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+        # NETLIFY_AUTH_TOKEN and NETLIFY_SITE_ID added in the repo's secrets
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ inputs.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ inputs.NETLIFY_SITE_ID }}
+          BRANCHE_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          npm init -y
+          npm install --unsafe-perm=true netlify-cli -g
+          netlify init
+          netlify deploy --alias= ${{ inputs.alias }} --dir="public" --message "Preview deploy from ${{ inputs.alias }}"
+
+
+
+
+
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+        fetch-depth: 0
+        ref: ${{ github.event.pull_request.head.ref }}
+        repository: ${{github.event.pull_request.head.repo.full_name}}
+    - name: Check python installed
+      run: |
+        conda info
+        conda list
+      shell: bash
+    - name: Build to md
+      run: |
+        git diff --name-only origin/master origin/${GITHUB_HEAD_REF} -- ./content/course/${{ inputs.directory-name }} >> diff.txt
+        cat diff.txt
+        Rscript -e 'source("./build/build_light.R")'
+      shell: bash
+    - uses: actions/upload-artifact@v2
+      with:
+        name: md-${{ inputs.directory-name }}
+        path: ./content/course/${{ inputs.directory-name }}
+        retention-days: 1
