@@ -75,30 +75,3 @@ runs:
           npm install --unsafe-perm=true netlify-cli -g
           netlify init
           netlify deploy --alias= ${{ inputs.alias }} --dir="public" --message "Preview deploy from ${{ inputs.alias }}"
-
-
-
-
-
-    - uses: actions/checkout@v2
-      with:
-        submodules: true
-        fetch-depth: 0
-        ref: ${{ github.event.pull_request.head.ref }}
-        repository: ${{github.event.pull_request.head.repo.full_name}}
-    - name: Check python installed
-      run: |
-        conda info
-        conda list
-      shell: bash
-    - name: Build to md
-      run: |
-        git diff --name-only origin/master origin/${GITHUB_HEAD_REF} -- ./content/course/${{ inputs.directory-name }} >> diff.txt
-        cat diff.txt
-        Rscript -e 'source("./build/build_light.R")'
-      shell: bash
-    - uses: actions/upload-artifact@v2
-      with:
-        name: md-${{ inputs.directory-name }}
-        path: ./content/course/${{ inputs.directory-name }}
-        retention-days: 1
