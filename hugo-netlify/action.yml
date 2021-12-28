@@ -41,7 +41,7 @@ runs:
           path: ./content/course/modelisation
       - uses: actions/download-artifact@v2
         with:
-          name: md-nlp
+          name: md-NLP
           path: ./content/course/NLP
       - name: Clean files with Python function
         run: |
