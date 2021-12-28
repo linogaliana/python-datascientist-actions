@@ -51,13 +51,16 @@ runs:
          pip install matplotlib wordcloud nltk
          python build/cleanmd.py
          python build/wc_website.py
+        shell: bash
       - name: Check hugo installed
         run: |
           Rscript -e 'blogdown::install_hugo("0.83.0", force = TRUE)'
           Rscript -e 'print(blogdown:::hugo_version())'
+        shell: bash
       - name: Render blog
         run: |
           Rscript -e 'source("./build/netlify.R")'
+        shell: bash
       - name: Install npm
         if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
         uses: actions/setup-node@v2          
@@ -75,3 +78,4 @@ runs:
           npm install --unsafe-perm=true netlify-cli -g
           netlify init
           netlify deploy --alias= ${{ inputs.alias }} --dir="public" --message "Preview deploy from ${{ inputs.alias }}"
+        shell: bash
