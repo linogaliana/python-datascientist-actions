@@ -9,6 +9,10 @@ inputs:
     description: 'Should we modify some options to print more chunks'
     required: false
     default: false
+  suffix:
+    description: 'Suffix for the artifacts'
+    required: false
+    default: ''
   
 
 runs:
