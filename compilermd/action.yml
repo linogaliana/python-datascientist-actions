@@ -1,0 +1,31 @@
+name: 'Build Rmd with Python'
+description: 'Build Rmd with Python code for hugo website'
+inputs:
+  directory-name:  # id of input
+    description: 'Name of the directory that should be built'
+    required: true
+    default: 'manipulation'
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+        fetch-depth: 0
+        ref: ${{ github.event.pull_request.head.ref }}
+        repository: ${{github.event.pull_request.head.repo.full_name}}
+    - name: Check python installed
+      run: |
+        conda info
+        conda list
+    - name: Build to md
+      run: |
+        git diff --name-only origin/master origin/${GITHUB_HEAD_REF} -- ./content/course/${{ inputs.directory-name }} >> diff.txt
+        cat diff.txt
+        Rscript -e 'source("./build/build_light.R")'
+    - uses: actions/upload-artifact@v2
+      with:
+        name: md-${{ inputs.directory-name }}
+        path: ./content/course/${{ inputs.directory-name }}
+        retention-days: 1
