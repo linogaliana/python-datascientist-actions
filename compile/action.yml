@@ -19,11 +19,13 @@ runs:
       run: |
         conda info
         conda list
+      shell: bash
     - name: Build to md
       run: |
         git diff --name-only origin/master origin/${GITHUB_HEAD_REF} -- ./content/course/${{ inputs.directory-name }} >> diff.txt
         cat diff.txt
         Rscript -e 'source("./build/build_light.R")'
+      shell: bash
     - uses: actions/upload-artifact@v2
       with:
         name: md-${{ inputs.directory-name }}
