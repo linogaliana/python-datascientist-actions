@@ -39,7 +39,7 @@ runs:
         shell: bash
       - name: Render blog
         run: |
-          rm -rf *.Rmd
+          rm -rf ./content/**/*.Rmd
           Rscript -e 'source("./build_light/netlify.R")'
         shell: bash
       - name: Install npm
