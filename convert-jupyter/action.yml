@@ -28,8 +28,8 @@ runs:
               k="${j%.md}.ipynb" ;
             fi            
          done
-         mkdir -p ../../${{ inputs.alias }}
-         cp -R . ../../${{ inputs.alias }}
+         mkdir -p ../../${{ inputs.directory-name }}
+         cp -R . ../../${{ inputs.directory-name }}
          cd ../..
         shell: bash
       - uses: actions/upload-artifact@v2
