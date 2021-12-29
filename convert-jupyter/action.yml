@@ -28,9 +28,9 @@ runs:
               k="${j%.md}.ipynb" ;
             fi            
          done
-         mkdir -p ../${{ inputs.alias }}
-         cp -R . ../${{ inputs.alias }}
-         cd ..
+         mkdir -p ../../${{ inputs.alias }}
+         cp -R . ../../${{ inputs.alias }}
+         cd ../..
         shell: bash
       - uses: actions/upload-artifact@v2
         with:
