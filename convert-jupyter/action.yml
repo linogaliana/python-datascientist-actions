@@ -16,7 +16,7 @@ runs:
       - name: Convert in ipynb with Jupytext
         run: |
          pip install jupytext
-         cd ./temp
+         cd ./content/temp
          for i in $(find . -type f \( -iname "*.Rmd" \)); do \
             j="${i%.Rmd}.md" ;
             echo "$j" ;
