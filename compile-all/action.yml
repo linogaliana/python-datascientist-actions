@@ -13,6 +13,18 @@ inputs:
     description: 'Suffix for the artifacts'
     required: false
     default: ''
+  script-name:
+    description: 'R script name to build .md'
+    required: false
+    default: 'build_light.R'
+  subset-files:
+    description: 'Should we remove some content ?'
+    required: false
+    default: true
+  branch-deploy:
+    description: 'Is it production or branch deploy ?'
+    required: false
+    default: true
   
 
 runs:
@@ -34,12 +46,21 @@ runs:
         run: |
          python build/modifmd.py
         shell: bash
-      - name: Build to md
+      - name: Remove files if needed
+        if: ${{ inputs.subset-files }}
         run: |
           rm -rf manipulation/ visualisation/ modelisation/ NLP/
+      - name: Build to md [on a branch]
+        if: ${{ inputs.branch-deploy }}
+        run: |
           git diff --name-only origin/master origin/${GITHUB_HEAD_REF} >> diff.txt
           cat diff.txt
-          Rscript -e 'source("./build/build_light.R")'
+          Rscript -e 'source("./build/${{ inputs.script-name }}")'
+        shell: bash
+      - name: Build to md [on a branch]
+        if: ${{ inputs.branch-deploy }}
+        run: |
+          Rscript -e 'source("./build/${{ inputs.script-name }}")'
         shell: bash
       - uses: actions/upload-artifact@v2
         with:
