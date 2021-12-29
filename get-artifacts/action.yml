@@ -5,6 +5,11 @@ inputs:
     description: 'Suffix for the artifacts'
     required: false
     default: ''
+  directory:
+    description: 'Path for the artifacts'
+    required: false
+    default: 'content'
+  
 
 runs:
   using: "composite"
@@ -18,20 +23,20 @@ runs:
       - uses: actions/download-artifact@v2
         with:
           name: md-reste${{ inputs.suffix }}
-          path: ./content/course
+          path: ./content/${{ inputs.directory }}
       - uses: actions/download-artifact@v2
         with:
           name: md-manipulation${{ inputs.suffix }}
-          path: ./content/course/manipulation
+          path: ./content/${{ inputs.directory }}/manipulation
       - uses: actions/download-artifact@v2
         with:
           name: md-visualisation${{ inputs.suffix }}
-          path: ./content/course/visualisation
+          path: ./content/${{ inputs.directory }}/visualisation
       - uses: actions/download-artifact@v2
         with:
           name: md-modelisation${{ inputs.suffix }}
-          path: ./content/course/modelisation
+          path: ./content/${{ inputs.directory }}/modelisation
       - uses: actions/download-artifact@v2
         with:
           name: md-NLP${{ inputs.suffix }}
-          path: ./content/course/NLP
+          path: ./content/${{ inputs.directory }}/NLP
