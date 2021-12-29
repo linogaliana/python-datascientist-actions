@@ -39,7 +39,8 @@ runs:
         shell: bash
       - name: Render blog
         run: |
-          Rscript -e 'source("./build/netlify.R")'
+          rm -rf *.Rmd
+          Rscript -e 'source("./build_light/netlify.R")'
         shell: bash
       - name: Install npm
         # if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
