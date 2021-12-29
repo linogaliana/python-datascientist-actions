@@ -40,6 +40,9 @@ runs:
       - name: Render blog
         run: |
           find ./content -name "*.Rmd" -type f -delete
+          pwd
+          ls
+          find ./content -name "*.md" -type f
           Rscript -e 'source("./build/netlify.R")'
         shell: bash
       - name: Install npm
