@@ -50,6 +50,7 @@ runs:
         if: ${{ inputs.subset-files }}
         run: |
           rm -rf manipulation/ visualisation/ modelisation/ NLP/
+        shell: bash
       - name: Build to md [on a branch]
         if: ${{ inputs.branch-deploy }}
         run: |
