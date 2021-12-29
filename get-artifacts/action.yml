@@ -1,5 +1,5 @@
-name: 'Build Rmd with Python'
-description: 'Build Rmd with Python code for hugo website'
+name: 'Get artifacts'
+description: 'Get artifacts from various locations'
 inputs:
   suffix:
     description: 'Suffix for the artifacts'
