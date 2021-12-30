@@ -40,6 +40,7 @@ runs:
         shell: bash
       - name: Check hugo installed
         run: |
+          rm -rf /usr/bin/hugo
           Rscript -e 'blogdown::install_hugo("0.83.0", force = TRUE)'
           Rscript -e 'print(blogdown:::hugo_version())'
         shell: bash
