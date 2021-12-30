@@ -26,10 +26,14 @@ runs:
       - uses: ./get-artifacts
         with:
           directory: "temp"
+      - name: Move from temp to content
+        run: |
+         pwd
+         mv ./content/temp/* ./content
+         find ./content -name "*.md" -type f
+        shell: bash
       - name: Clean files with Python function
         run: |
-         rm -rf "./temp"
-         mkdir -p temp
          pip install matplotlib wordcloud nltk
          python build/cleanmd.py
          python build/wc_website.py
