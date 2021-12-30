@@ -17,17 +17,10 @@ inputs:
 runs:
   using: "composite"
   steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.ref }}
-          repository: ${{github.event.pull_request.head.repo.full_name}}
       - name: Clean files with Python function
         run: |
          rm -rf "./temp"
          mkdir -p temp
-         mkdir -p notebooks
          pip install matplotlib wordcloud nltk
          python build/cleanmd.py
          python build/wc_website.py
