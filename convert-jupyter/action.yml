@@ -28,9 +28,10 @@ runs:
               k="${j%.md}.ipynb" ;
             fi            
          done
-         mkdir -p ../../${{ inputs.directory-name }}
+         mkdir -p ../../${{ inputs.directory-name }}/content
          cp -R . ../../${{ inputs.directory-name }}/content
          cd ../..
+         find ./${{ inputs.directory-name }}/content -name "*.ipynb" -type f
         shell: bash
       - uses: actions/upload-artifact@v2
         with:
