@@ -28,15 +28,15 @@ runs:
         with:
           name: md-manipulation${{ inputs.suffix }}
           path: ./content/${{ inputs.directory }}/manipulation
-      - uses: actions/download-artifact@v2
-        with:
-          name: md-visualisation${{ inputs.suffix }}
-          path: ./content/${{ inputs.directory }}/visualisation
-      - uses: actions/download-artifact@v2
-        with:
-          name: md-modelisation${{ inputs.suffix }}
-          path: ./content/${{ inputs.directory }}/modelisation
-      - uses: actions/download-artifact@v2
-        with:
-          name: md-NLP${{ inputs.suffix }}
-          path: ./content/${{ inputs.directory }}/NLP
+#      - uses: actions/download-artifact@v2
+#        with:
+#          name: md-visualisation${{ inputs.suffix }}
+#          path: ./content/${{ inputs.directory }}/visualisation
+#      - uses: actions/download-artifact@v2
+#        with:
+#          name: md-modelisation${{ inputs.suffix }}
+#          path: ./content/${{ inputs.directory }}/modelisation
+#      - uses: actions/download-artifact@v2
+#        with:
+#          name: md-NLP${{ inputs.suffix }}
+#          path: ./content/${{ inputs.directory }}/NLP
