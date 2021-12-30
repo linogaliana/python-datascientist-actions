@@ -66,5 +66,5 @@ runs:
       - uses: actions/upload-artifact@v2
         with:
           name: md-reste${{ inputs.suffix }}
-          path: ./content/course/
+          path: ./content/course
           retention-days: 1
