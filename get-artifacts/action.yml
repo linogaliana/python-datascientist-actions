@@ -32,10 +32,10 @@ runs:
         with:
           name: md-visualisation${{ inputs.suffix }}
           path: ./content/${{ inputs.directory }}/visualisation
-#      - uses: actions/download-artifact@v2
-#        with:
-#          name: md-modelisation${{ inputs.suffix }}
-#          path: ./content/${{ inputs.directory }}/modelisation
+      - uses: actions/download-artifact@v2
+        with:
+          name: md-modelisation${{ inputs.suffix }}
+          path: ./content/${{ inputs.directory }}/modelisation
 #      - uses: actions/download-artifact@v2
 #        with:
 #          name: md-NLP${{ inputs.suffix }}
