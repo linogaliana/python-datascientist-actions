@@ -13,16 +13,10 @@ inputs:
 runs:
   using: "composite"
   steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.ref }}
-          repository: ${{github.event.pull_request.head.repo.full_name}}
       - name: Convert in ipynb with Jupytext
         run: |
          pwd
-         ls
+         ls ./content
          cd ./content/temp
          pip install jupytext
          for i in $(find . -type f \( -iname "*.Rmd" \)); do \
