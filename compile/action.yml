@@ -45,5 +45,4 @@ runs:
         name: md-${{ inputs.directory-name }}${{ inputs.suffix }}
         path: |
           ./content/course/${{ inputs.directory-name }}
-          !./content/course/${{ inputs.directory-name }}/**/*.Rmd
         retention-days: 1

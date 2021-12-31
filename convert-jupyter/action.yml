@@ -15,6 +15,7 @@ runs:
   steps:
       - name: Convert in ipynb with Jupytext
         run: |
+         pwd
          pip install jupytext
          cd ./content/temp
          for i in $(find . -type f \( -iname "*.Rmd" \)); do \
