@@ -45,7 +45,7 @@ runs:
         cat diff.txt
       shell: bash
     - name: Build to md (master)
-      if: !${{ inputs.branch-deploy }}
+      if: !(${{ inputs.branch-deploy }})
       run: |
         Rscript -e 'source("./build/build.R")'
       shell: bash

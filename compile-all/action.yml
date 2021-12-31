@@ -58,8 +58,8 @@ runs:
           cat diff.txt
           Rscript -e 'source("./build/${{ inputs.script-name }}")'
         shell: bash
-      - name: Build to md [on a branch]
-        if: !${{ inputs.branch-deploy }}
+      - name: Build to md [on master]
+        if: !(${{ inputs.branch-deploy }})
         run: |
           Rscript -e 'source("./build/${{ inputs.script-name }}")'
         shell: bash
