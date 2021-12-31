@@ -25,7 +25,7 @@ runs:
           repository: ${{github.event.pull_request.head.repo.full_name}}
       - uses: linogaliana/python-datascientist-actions/get-artifacts@v1.0.47
         with:
-          directory: "content/course"
+          directory: "course"
       - name: Move from temp to content
         run: |
          pwd
