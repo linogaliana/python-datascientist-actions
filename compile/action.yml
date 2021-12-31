@@ -13,6 +13,10 @@ inputs:
     description: 'Suffix for the artifacts'
     required: false
     default: ''
+  branch-deploy:
+    description: 'Are we on a branch deploy?'
+    required: false
+    default: true
 
 runs:
   using: "composite"
@@ -33,11 +37,21 @@ runs:
       run: |
         python build/modifmd.py
       shell: bash
-    - name: Build to md
+    - name: List files
+      if: ${{ inputs.branch-deploy }}
       run: |
         git diff --name-only origin/master origin/${GITHUB_HEAD_REF} -- ./content/course/${{ inputs.directory-name }} >> diff.txt
         echo "./content/course/${{ inputs.directory-name }}/_index.Rmd" >> diff.txt
         cat diff.txt
+      shell: bash
+    - name: Build to md (master)
+      if: !${{ inputs.branch-deploy }}
+      run: |
+        Rscript -e 'source("./build/build.R")'
+      shell: bash
+    - name: Build to md (branch)
+      if: ${{ inputs.branch-deploy }}
+      run: |
         Rscript -e 'source("./build/build_light.R")'
       shell: bash
     - uses: actions/upload-artifact@v2
