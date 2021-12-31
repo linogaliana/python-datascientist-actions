@@ -23,7 +23,7 @@ runs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{github.event.pull_request.head.repo.full_name}}
-      - uses: linogaliana/python-datascientist-actions/get-artifacts@v1.0.62
+      - uses: linogaliana/python-datascientist-actions/get-artifacts@v1.0.63
         with:
           directory: "../content/course"
       - name: Move from temp to content
