@@ -59,7 +59,7 @@ runs:
           Rscript -e 'source("./build/${{ inputs.script-name }}")'
         shell: bash
       - name: Build to md [on master]
-        if: !(${{ inputs.branch-deploy }})
+        if: (${{ inputs.branch-deploy }}) != true
         run: |
           Rscript -e 'source("./build/${{ inputs.script-name }}")'
         shell: bash
