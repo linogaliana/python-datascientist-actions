@@ -21,10 +21,10 @@ inputs:
     description: 'Should we remove some content ?'
     required: false
     default: true
-  branch-name:
+  branch-deploy:
     description: 'Is it production or branch deploy ?'
     required: false
-    default: "branch-name"
+    default: true
   
 
 runs:
@@ -52,7 +52,7 @@ runs:
           rm -rf manipulation/ visualisation/ modelisation/ NLP/
         shell: bash
       - name: Build to md [on a branch]
-        if: ${{ inputs.branch-name }} != "master"
+        if: ${{ inputs.branch-deploy }} != 'true'
         run: |
           git diff --name-only origin/master origin/${GITHUB_HEAD_REF} >> diff.txt
           cat diff.txt

@@ -13,10 +13,10 @@ inputs:
     description: 'Suffix for the artifacts'
     required: false
     default: ''
-  branch-name:
+  branch-deploy:
     description: 'Are we on a branch deploy?'
     required: false
-    default: "branch-name"
+    default: true
   script-name:
     description: 'R script name to build .md'
     required: false
@@ -42,15 +42,11 @@ runs:
         python build/modifmd.py
       shell: bash
     - name: List files
-      if: ${{ inputs.branch-name }} != "master"
+      if: ${{ inputs.branch-deploy }} != 'true'
       run: |
-        echo ${{ inputs.branch-name }}
-        if [[ ${{ inputs.branch-name }} == 'master']]
-        then
-          git diff --name-only origin/master origin/${GITHUB_HEAD_REF} -- ./content/course/${{ inputs.directory-name }} >> diff.txt
-          echo "./content/course/${{ inputs.directory-name }}/_index.Rmd" >> diff.txt
-          cat diff.txt
-        fi
+       git diff --name-only origin/master origin/${GITHUB_HEAD_REF} -- ./content/course/${{ inputs.directory-name }} >> diff.txt
+       echo "./content/course/${{ inputs.directory-name }}/_index.Rmd" >> diff.txt
+       cat diff.txt
       shell: bash
     - name: Build to md
       run: |
