@@ -52,7 +52,11 @@ runs:
     - name: Keep only directory in question [master only]
       if: ${{ github.event.inputs.branch-deploy != 'true' }}
       run: |
-       find ./content/course -maxdepth 1 ! -name ${{ inputs.directory-name }} -type d -not -path '.' -exec rm -rf {} +
+       cd ./content/course
+       mv ${{ inputs.directory-name }} ..
+       rm -rf *
+       mv ../${{ inputs.directory-name }}
+       cd ../..
       shell: bash
     - name: Build to md
       run: |
