@@ -45,9 +45,11 @@ runs:
       if: ${{ inputs.branch-name }} != "master"
       run: |
         echo ${{ inputs.branch-name }}
-        git diff --name-only origin/master origin/${GITHUB_HEAD_REF} -- ./content/course/${{ inputs.directory-name }} >> diff.txt
-        echo "./content/course/${{ inputs.directory-name }}/_index.Rmd" >> diff.txt
-        cat diff.txt
+        if [[ inputs.branch-name == 'master']]; then
+          git diff --name-only origin/master origin/${GITHUB_HEAD_REF} -- ./content/course/${{ inputs.directory-name }} >> diff.txt
+          echo "./content/course/${{ inputs.directory-name }}/_index.Rmd" >> diff.txt
+          cat diff.txt
+        fi
       shell: bash
     - name: Build to md
       run: |
