@@ -43,7 +43,7 @@ runs:
         python build/modifmd.py
       shell: bash
     - name: List files
-      if: ${{ inputs.branch-deploy }} != 'true'
+      if: ${{ ${{ inputs.branch-deploy }} != 'true' }}
       run: |
        git diff --name-only origin/master origin/${GITHUB_HEAD_REF} -- ./content/course/${{ inputs.directory-name }} >> diff.txt
        echo "./content/course/${{ inputs.directory-name }}/_index.Rmd" >> diff.txt
