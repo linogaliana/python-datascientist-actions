@@ -49,7 +49,9 @@ runs:
       - name: Remove files if needed
         if: ${{ inputs.subset-files }}
         run: |
+          cd ./content/course
           rm -rf manipulation/ visualisation/ modelisation/ NLP/
+          cd ../..
         shell: bash
       - name: Build to md [on a branch]
         if: ${{ github.event.inputs.branch-deploy == 'true' }}
