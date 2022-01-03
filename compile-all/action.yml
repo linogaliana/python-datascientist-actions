@@ -25,7 +25,7 @@ inputs:
     description: 'Is it production or branch deploy ?'
     required: false
     default: true
-  
+    type: boolean  
 
 runs:
   using: "composite"

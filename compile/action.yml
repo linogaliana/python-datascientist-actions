@@ -17,6 +17,7 @@ inputs:
     description: 'Are we on a branch deploy?'
     required: false
     default: true
+    type: boolean
   script-name:
     description: 'R script name to build .md'
     required: false
