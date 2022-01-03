@@ -42,12 +42,12 @@ runs:
           conda list
         shell: bash
       - name: Modif Rmd echo status
-        if: ${{ inputs.modify-chunk }}
+        if: ${{ github.event.inputs.modify-chunk == 'true' }}
         run: |
          python build/modifmd.py
         shell: bash
       - name: Remove files if needed
-        if: ${{ inputs.subset-files }}
+        if: ${{ github.event.inputs.subset-files == 'true' }}
         run: |
           cd ./content/course
           rm -rf manipulation/ visualisation/ modelisation/ NLP/

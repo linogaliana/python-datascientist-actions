@@ -38,7 +38,7 @@ runs:
         conda list
       shell: bash
     - name: Modif Rmd echo status
-      if: ${{ inputs.modify-chunk }}
+      if: ${{ github.event.inputs.modify-chunk == 'true' }}
       run: |
         python build/modifmd.py
       shell: bash
