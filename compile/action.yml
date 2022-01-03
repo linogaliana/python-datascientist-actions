@@ -45,7 +45,7 @@ runs:
       if: ${{ inputs.branch-name }} != "master"
       run: |
         echo ${{ inputs.branch-name }}
-        if [[ inputs.branch-name == 'master']]
+        if [[ ${{ inputs.branch-name }} == 'master']]
         then
           git diff --name-only origin/master origin/${GITHUB_HEAD_REF} -- ./content/course/${{ inputs.directory-name }} >> diff.txt
           echo "./content/course/${{ inputs.directory-name }}/_index.Rmd" >> diff.txt
