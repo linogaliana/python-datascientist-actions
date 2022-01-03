@@ -52,11 +52,9 @@ runs:
     - name: Keep only directory in question [master only]
       if: ${{ github.event.inputs.branch-deploy != 'true' }}
       run: |
+       shopt -s extglob
        cd ./content/course
-       mv ${{ inputs.directory-name }} ..
-       rm -rf *
-       mv ../${{ inputs.directory-name }}
-       cd ../..
+       rm -rf !(${{ inputs.directory-name }})
       shell: bash
     - name: Build to md
       run: |
