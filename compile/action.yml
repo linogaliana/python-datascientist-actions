@@ -13,11 +13,11 @@ inputs:
     description: 'Suffix for the artifacts'
     required: false
     default: ''
-  branch-deploy:
+  job_type:
     description: 'Are we on a branch deploy?'
     required: false
-    default: true
-    type: boolean
+    default: pr
+    type: string
   script-name:
     description: 'R script name to build .md'
     required: false
@@ -43,14 +43,14 @@ runs:
         python build/modifmd.py
       shell: bash
     - name: List files
-      if: ${{ fromJSON(inputs.branch-deploy) }}
+      if: ${{ inputs.job_type != 'master' }}}
       run: |
        git diff --name-only origin/master origin/${GITHUB_HEAD_REF} -- ./content/course/${{ inputs.directory-name }} >> diff.txt
        echo "./content/course/${{ inputs.directory-name }}/_index.Rmd" >> diff.txt
        cat diff.txt
       shell: bash
     - name: Keep only directory in question [master only]
-      if: ${{ !fromJSON(inputs.branch-deploy) }}
+      if: ${{ inputs.job_type == 'master' }}
       run: |
        shopt -s extglob
        cd ./content/course
