@@ -43,18 +43,18 @@ runs:
         python build/modifmd.py
       shell: bash
     - name: List files
-      if: ${{ inputs.job_type != 'master' }}}
+      env:
+        INPUT_TEST_INPUT: ${{ inputs.job_type }}
       run: |
-       git diff --name-only origin/master origin/${GITHUB_HEAD_REF} -- ./content/course/${{ inputs.directory-name }} >> diff.txt
-       echo "./content/course/${{ inputs.directory-name }}/_index.Rmd" >> diff.txt
-       cat diff.txt
-      shell: bash
-    - name: Keep only directory in question [master only]
-      if: ${{ inputs.job_type == 'master' }}
-      run: |
-       shopt -s extglob
-       cd ./content/course
-       rm -rf !(${{ inputs.directory-name }})
+       if $INPUT_TEST_INPUT != "master" ; then      
+          git diff --name-only origin/master origin/${GITHUB_HEAD_REF} -- ./content/course/${{ inputs.directory-name }} >> diff.txt
+          echo "./content/course/${{ inputs.directory-name }}/_index.Rmd" >> diff.txt
+          cat diff.txt
+       else
+          shopt -s extglob
+          cd ./content/course
+          rm -rf !(${{ inputs.directory-name }})
+       fi
       shell: bash
     - name: Build to md
       run: |
