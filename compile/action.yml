@@ -43,14 +43,14 @@ runs:
         python build/modifmd.py
       shell: bash
     - name: List files
-      if: ${{ github.event.inputs.branch-deploy == 'true' }}
+      if: ${{ fromJSON(inputs.branch-deploy) == 'true' }}
       run: |
        git diff --name-only origin/master origin/${GITHUB_HEAD_REF} -- ./content/course/${{ inputs.directory-name }} >> diff.txt
        echo "./content/course/${{ inputs.directory-name }}/_index.Rmd" >> diff.txt
        cat diff.txt
       shell: bash
     - name: Keep only directory in question [master only]
-      if: ${{ github.event.inputs.branch-deploy != 'true' }}
+      if: ${{ fromJSON(inputs.branch-deploy) != 'true' }}
       run: |
        shopt -s extglob
        cd ./content/course
