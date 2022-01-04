@@ -47,7 +47,7 @@ runs:
          python build/modifmd.py
         shell: bash
       - name: Remove files if needed
-        if: ${{ github.event.inputs.subset-files == 'true' }}
+        if: ${{ inputs.subset-files == 'true' }}
         run: |
           cd ./content/course
           rm -rf manipulation/ visualisation/ modelisation/ NLP/
