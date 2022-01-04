@@ -46,16 +46,16 @@ runs:
       env:
         INPUT_TEST_INPUT: ${{ inputs.job_type }}
       run: |
-       if ${{ INPUT_TEST_INPUT }} != "master" ; then
-         echo "Pipeline running on pull request"
-         git diff --name-only origin/master origin/${GITHUB_HEAD_REF} -- ./content/course/${{ inputs.directory-name }} >> diff.txt
-         echo "./content/course/${{ inputs.directory-name }}/_index.Rmd" >> diff.txt
-         cat diff.txt
+       if $INPUT_TEST_INPUT != "master" ; then
+        echo "Pipeline running on pull request"
+        git diff --name-only origin/master origin/${GITHUB_HEAD_REF} -- ./content/course/${{ inputs.directory-name }} >> diff.txt
+        echo "./content/course/${{ inputs.directory-name }}/_index.Rmd" >> diff.txt
+        cat diff.txt
        else
-         echo "Pipeline running on master"
-         shopt -s extglob
-         cd ./content/course
-         rm -rf !(${{ inputs.directory-name }})
+        echo "Pipeline running on master"
+        shopt -s extglob
+        cd ./content/course
+        rm -rf !(${{ inputs.directory-name }})
        fi
       shell: bash
     - name: Build to md
