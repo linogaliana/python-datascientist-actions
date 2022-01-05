@@ -23,7 +23,7 @@ runs:
       with:
         name: md-manipulation${{ inputs.suffix }}
         path: ./content/${{ inputs.directory }}/manipulation
-
+    - name: List new content
       run: |
         echo "Pipeline running on pull request"
         git diff --name-only origin/master origin/${GITHUB_HEAD_REF} -- ./content/course/${{ inputs.directory-name }} >> diff.txt
