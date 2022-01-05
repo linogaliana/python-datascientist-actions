@@ -1,0 +1,65 @@
+name: 'Build Rmd with Python'
+description: 'Build Rmd with Python code for hugo website'
+inputs:
+  directory-name:  # id of input
+    description: 'Name of the directory that should be built'
+    required: true
+    default: 'manipulation'
+  modify-chunk:
+    description: 'Should we modify some options to print more chunks'
+    required: false
+    default: false
+  suffix:
+    description: 'Suffix for the artifacts'
+    required: false
+    default: ''
+  job_type:
+    description: 'Are we on a branch deploy?'
+    required: false
+    default: pr
+    type: string
+  script-name:
+    description: 'R script name to build .md'
+    required: false
+    default: 'build_light.R'
+    
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+        fetch-depth: 0
+        ref: ${{ github.event.pull_request.head.ref }}
+        repository: ${{github.event.pull_request.head.repo.full_name}}
+    - name: Check python installed
+      run: |
+        conda info
+        conda list
+      shell: bash
+    - name: Modif Rmd echo status
+      if: ${{ github.event.inputs.modify-chunk == 'true' }}
+      run: |
+        python build/modifmd.py
+      shell: bash
+    - uses: actions/download-artifact@v2
+      with:
+        name: diff-${{ inputs.directory-name }}${{ inputs.suffix }}
+        path: diff.txt
+    - name: List files
+      run: |
+        echo "Pipeline running on master"
+        shopt -s extglob
+        cd ./content/course
+        rm -rf !(${{ inputs.directory-name }})
+      shell: bash
+    - name: Build to md
+      run: |
+        Rscript -e 'source("./build/${{ inputs.script-name }}")'
+      shell: bash
+    - uses: actions/upload-artifact@v2
+      with:
+        name: md-${{ inputs.directory-name }}${{ inputs.suffix }}
+        path: |
+          ./content/course/${{ inputs.directory-name }}
+        retention-days: 1
