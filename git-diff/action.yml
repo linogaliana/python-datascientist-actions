@@ -19,10 +19,6 @@ runs:
         fetch-depth: 0
         ref: ${{ github.event.pull_request.head.ref }}
         repository: ${{github.event.pull_request.head.repo.full_name}}
-    - uses: actions/download-artifact@v2
-      with:
-        name: md-manipulation${{ inputs.suffix }}
-        path: ./content/${{ inputs.directory }}/manipulation
     - name: List new content
       run: |
         echo "Pipeline running on pull request"
