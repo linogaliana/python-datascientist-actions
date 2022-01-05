@@ -42,10 +42,6 @@ runs:
       run: |
         python build/modifmd.py
       shell: bash
-    - uses: actions/download-artifact@v2
-      with:
-        name: diff-${{ inputs.directory-name }}${{ inputs.suffix }}
-        path: diff.txt
     - name: List files
       run: |
         echo "Pipeline running on master"
