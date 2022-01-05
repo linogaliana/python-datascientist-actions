@@ -1,0 +1,38 @@
+name: 'Build Rmd with Python'
+description: 'Build Rmd with Python code for hugo website'
+inputs:
+  directory-name:  # id of input
+    description: 'Name of the directory that should be built'
+    required: true
+    default: 'manipulation'
+  suffix:
+    description: 'Suffix for the artifacts'
+    required: false
+    default: ''
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+        fetch-depth: 0
+        ref: ${{ github.event.pull_request.head.ref }}
+        repository: ${{github.event.pull_request.head.repo.full_name}}
+    - uses: actions/download-artifact@v2
+      with:
+        name: md-manipulation${{ inputs.suffix }}
+        path: ./content/${{ inputs.directory }}/manipulation
+
+      run: |
+        echo "Pipeline running on pull request"
+        git diff --name-only origin/master origin/${GITHUB_HEAD_REF} -- ./content/course/${{ inputs.directory-name }} >> diff.txt
+        echo "./content/course/${{ inputs.directory-name }}/_index.Rmd" >> diff.txt
+        cat diff.txt
+      shell: bash
+    - uses: actions/upload-artifact@v2
+      with:
+        name: diff-${{ inputs.directory-name }}${{ inputs.suffix }}
+        path: |
+          diff.txt
+        retention-days: 1

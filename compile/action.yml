@@ -42,22 +42,10 @@ runs:
       run: |
         python build/modifmd.py
       shell: bash
-    - name: List files
-      env:
-        INPUT_TEST_INPUT: ${{ inputs.job_type }}
-      run: |
-        if $INPUT_TEST_INPUT != "master" ; then
-            echo "Pipeline running on pull request"
-            git diff --name-only origin/master origin/${GITHUB_HEAD_REF} -- ./content/course/${{ inputs.directory-name }} >> diff.txt
-            echo "./content/course/${{ inputs.directory-name }}/_index.Rmd" >> diff.txt
-            cat diff.txt
-        else
-            echo "Pipeline running on master"
-            shopt -s extglob
-            cd ./content/course
-            rm -rf !(${{ inputs.directory-name }})
-        fi
-      shell: bash
+    - uses: actions/download-artifact@v2
+      with:
+        name: diff-${{ inputs.directory-name }}${{ inputs.suffix }}
+        path: diff.txt
     - name: Build to md
       run: |
         Rscript -e 'source("./build/${{ inputs.script-name }}")'
