@@ -46,10 +46,10 @@ runs:
       run: |
         python build/modifmd.py
       shell: bash
-    - uses: actions/download-artifact@v2
-      with:
-        name: diff-${{ inputs.directory-name }}
-        path: diff.txt
+#    - uses: actions/download-artifact@v2
+#      with:
+#        name: diff-${{ inputs.directory-name }}
+#        path: diff.txt
     - name: Build to md
       run: |
         Rscript -e 'source("./build/${{ inputs.script-name }}")'
