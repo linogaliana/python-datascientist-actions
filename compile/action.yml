@@ -37,7 +37,7 @@ runs:
         conda info
         conda list
       shell: bash
-    - uses: linogaliana/python-datascientist-actions/git-diff@v1.0.95
+    - uses: linogaliana/python-datascientist-actions/git-diff@v1.0.96
       with:
         directory-name: ${{ inputs.directory-name }}
         suffix: ${{ inputs.suffix }}
