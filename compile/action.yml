@@ -37,6 +37,10 @@ runs:
         conda info
         conda list
       shell: bash
+    - uses: linogaliana/python-datascientist-actions/git-diff@v1.0.95
+      with:
+        directory-name: ${{ inputs.directory-name }}
+        suffix: ${{ inputs.suffix }}
     - name: Modif Rmd echo status
       if: ${{ github.event.inputs.modify-chunk == 'true' }}
       run: |
@@ -44,7 +48,7 @@ runs:
       shell: bash
     - uses: actions/download-artifact@v2
       with:
-        name: diff-${{ inputs.directory-name }}${{ inputs.suffix }}
+        name: diff-${{ inputs.directory-name }}
         path: diff.txt
     - name: Build to md
       run: |

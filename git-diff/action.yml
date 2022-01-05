@@ -32,7 +32,7 @@ runs:
       shell: bash
     - uses: actions/upload-artifact@v2
       with:
-        name: diff-${{ inputs.directory-name }}${{ inputs.suffix }}
+        name: diff-${{ inputs.directory-name }}
         path: |
           diff.txt
         retention-days: 1
