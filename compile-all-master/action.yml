@@ -1,0 +1,63 @@
+name: 'Build Rmd with Python'
+description: 'Build Rmd with Python code for hugo website'
+inputs:
+  directory-name:  # id of input
+    description: 'Name of the directory that should be built'
+    required: false
+    default: 'manipulation'
+  modify-chunk:
+    description: 'Should we modify some options to print more chunks'
+    required: false
+    default: false
+  suffix:
+    description: 'Suffix for the artifacts'
+    required: false
+    default: ''
+  script-name:
+    description: 'R script name to build .md'
+    required: false
+    default: 'build_light.R'
+  subset-files:
+    description: 'Should we remove some content ?'
+    required: false
+    default: true
+  branch-deploy:
+    description: 'Is it production or branch deploy ?'
+    required: false
+    default: true
+    type: boolean  
+
+runs:
+  using: "composite"
+  steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{github.event.pull_request.head.repo.full_name}}
+      - name: Check python installed
+        run: |
+          conda info
+          conda list
+        shell: bash
+      - name: Modif Rmd echo status
+        if: ${{ github.event.inputs.modify-chunk == 'true' }}
+        run: |
+         python build/modifmd.py
+        shell: bash
+      - name: Remove files if needed
+        run: |
+          cd ./content/course
+          rm -rf manipulation/ visualisation/ modelisation/ NLP/
+          cd ../..
+        shell: bash
+      - name: Build to md
+        run: |
+          Rscript -e 'source("./build/${{ inputs.script-name }}")'
+        shell: bash
+      - uses: actions/upload-artifact@v2
+        with:
+          name: md-reste${{ inputs.suffix }}
+          path: ./content/course
+          retention-days: 1
