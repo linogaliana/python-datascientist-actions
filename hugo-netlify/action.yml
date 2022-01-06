@@ -25,6 +25,7 @@ runs:
           repository: ${{github.event.pull_request.head.repo.full_name}}
       - name: Move from temp to content
         run: |
+         cd ..
          pwd
          #mv ./content/temp/* ./content
          find ./content -name "*.md" -type f
