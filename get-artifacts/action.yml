@@ -23,7 +23,7 @@ runs:
       - uses: actions/download-artifact@v2
         with:
           name: md-reste${{ inputs.suffix }}
-          path: ./content/course/${{ inputs.directory }}
+          path: ./content/{{ inputs.directory }}/course
       - uses: actions/download-artifact@v2
         with:
           name: md-manipulation${{ inputs.suffix }}
