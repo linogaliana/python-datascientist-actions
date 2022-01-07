@@ -48,6 +48,8 @@ runs:
         run: |
           ls
           find ./content -name "*.md" -type f
+          rm -rf ../content
+          mv ./content ../content
           Rscript -e 'source("./build/netlify.R")'
         shell: bash
       - name: Install npm
