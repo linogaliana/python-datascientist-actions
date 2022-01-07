@@ -23,20 +23,20 @@ runs:
       - uses: actions/download-artifact@v2
         with:
           name: md-reste${{ inputs.suffix }}
-          path: ./content/{{ inputs.directory }}/course
+          path: ./content/course
       - uses: actions/download-artifact@v2
         with:
           name: md-manipulation${{ inputs.suffix }}
-          path: ./content/${{ inputs.directory }}/manipulation
+          path: ./content/manipulation
       - uses: actions/download-artifact@v2
         with:
           name: md-visualisation${{ inputs.suffix }}
-          path: ./content/${{ inputs.directory }}/visualisation
+          path: ./content/visualisation
       - uses: actions/download-artifact@v2
         with:
           name: md-modelisation${{ inputs.suffix }}
-          path: ./content/${{ inputs.directory }}/modelisation
+          path: ./content/modelisation
       - uses: actions/download-artifact@v2
         with:
           name: md-NLP${{ inputs.suffix }}
-          path: ./content/${{ inputs.directory }}/NLP
+          path: ./content/NLP
