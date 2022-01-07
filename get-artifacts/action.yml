@@ -27,16 +27,16 @@ runs:
       - uses: actions/download-artifact@v2
         with:
           name: md-manipulation${{ inputs.suffix }}
-          path: ./content/manipulation
+          path: ./content/course/manipulation
       - uses: actions/download-artifact@v2
         with:
           name: md-visualisation${{ inputs.suffix }}
-          path: ./content/visualisation
+          path: ./content/course/visualisation
       - uses: actions/download-artifact@v2
         with:
           name: md-modelisation${{ inputs.suffix }}
-          path: ./content/modelisation
+          path: ./content/course/modelisation
       - uses: actions/download-artifact@v2
         with:
           name: md-NLP${{ inputs.suffix }}
-          path: ./content/NLP
+          path: ./content/course/NLP
