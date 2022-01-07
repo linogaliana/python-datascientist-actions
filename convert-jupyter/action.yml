@@ -13,10 +13,18 @@ inputs:
 runs:
   using: "composite"
   steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{github.event.pull_request.head.repo.full_name}}
+      - uses: linogaliana/python-datascientist-actions/get-artifacts@v1.0.112
       - name: Convert in ipynb with Jupytext
         run: |
          pwd
          ls ./content
+         cp ./content/course ./content/temp
          cd ./content/temp
          pip install jupytext
          for i in $(find . -type f \( -iname "*.Rmd" \)); do \
