@@ -17,6 +17,10 @@ inputs:
     description: 'Docker image on Dockerhub used for publication'
     required: false
     default: 'linogaliana/python-datascientist:latest'
+  download-nlp:  # id of input
+    description: 'Should we download NLP corpus ?'
+    required: false
+    default: '0'
   DOCKERHUB_USERNAME:  # id of input
     description: 'Dockerhub username'
     required: true
@@ -72,6 +76,7 @@ runs:
           file: ${{ inputs.dockerfile-path }}
           push: true
           tags: ${{ inputs.docker-image }}
+          build-args: download_nlp=${{ inputs.download_nlp }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
