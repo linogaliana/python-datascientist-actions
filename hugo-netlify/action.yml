@@ -69,7 +69,8 @@ runs:
           BRANCHE_REF: ${{ github.event.pull_request.head.ref }}
         run: |
           netlify init
-          if [[ "${{github.event.inputs.alias}}" != "master" ]]; then
+          if [[ "${{inputs.alias}}" != "master" ]]; then
+            echo "branch deploy"
             netlify deploy --alias=${{ inputs.alias }} --dir="public" --message "Preview deploy from ${{ inputs.alias }}"
           else
             echo "deploy to master"
