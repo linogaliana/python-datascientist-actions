@@ -70,12 +70,9 @@ runs:
         if: ${{ github.event.inputs.alias != 'master' }}
         run: |
           netlify init
-          netlify deploy --alias= ${{ inputs.alias }} --dir="public" --message "Preview deploy from ${{ inputs.alias }}"
-        shell: bash
-      - name: Deploy to Netlify [branch]
-        if: ${{ github.event.inputs.alias == 'master' }}
-        run: |
-          echo "deploy to master"
-          #netlify init
-          #netlify deploy --alias= ${{ inputs.alias }} --dir="public" --message "Preview deploy from ${{ inputs.alias }}"
+          if [[ "${{github.event.inputs.alias}}" != "master" ]]; then
+            netlify deploy --alias=${{ inputs.alias }} --dir="public" --message "Preview deploy from ${{ inputs.alias }}"
+          else
+            echo "deploy to master"
+          fi
         shell: bash
