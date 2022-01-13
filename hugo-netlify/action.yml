@@ -23,7 +23,7 @@ runs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{github.event.pull_request.head.repo.full_name}}
-      - uses: linogaliana/python-datascientist-actions/get-artifacts@v1.0.115
+      - uses: linogaliana/python-datascientist-actions/get-artifacts@v1.0.118
 #        with:
 #          directory: "../../content/course"
       - name: Move from temp to content
@@ -66,6 +66,7 @@ runs:
           npm init -y
           npm install --unsafe-perm=true netlify-cli -g
           netlify init
+        shell: bash
       - name: Deploy to Netlify [branch]
         if: ${{ github.event.inputs.alias != 'master' }}
         run: |
