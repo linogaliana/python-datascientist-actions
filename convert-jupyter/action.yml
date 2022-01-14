@@ -5,6 +5,10 @@ inputs:
     description: 'Name of the directory where files should be put'
     required: true
     default: 'notebooks'
+  suffix:
+    description: 'Should we remove some content ?'
+    required: false
+    default: ''
   BRANCHE_REF:  # id of input
     description: 'Name of the branch where files should be put'
     required: true
@@ -19,7 +23,10 @@ runs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{github.event.pull_request.head.repo.full_name}}
-      - uses: linogaliana/python-datascientist-actions/get-artifacts@v1.0.118
+      - uses: linogaliana/python-datascientist-actions/get-artifacts@v1.0.126
+        with:
+          suffix: {{ inputs.suffix }}
+          directory: {{ inputs.directory-name }}
       - name: Clean files with Python function
         run: |
          pip install matplotlib wordcloud nltk
