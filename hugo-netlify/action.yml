@@ -74,5 +74,6 @@ runs:
             netlify deploy --alias=${{ inputs.alias }} --dir="public" --message "Preview deploy from ${{ inputs.alias }}"
           else
             echo "deploy to master"
+            netlify deploy --prod --dir="public" --message "Deploy master"
           fi
         shell: bash
