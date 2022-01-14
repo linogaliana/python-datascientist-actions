@@ -5,10 +5,10 @@ inputs:
     description: 'Name of the directory that should be built'
     required: true
     default: 'manipulation'
-  modify-chunk:
+ echo-all-chunk:
     description: 'Should we modify some options to print more chunks'
     required: false
-    default: false
+    default: "no"
   suffix:
     description: 'Suffix for the artifacts'
     required: false
@@ -42,9 +42,13 @@ runs:
         directory-name: ${{ inputs.directory-name }}
         suffix: ${{ inputs.suffix }}
     - name: Modif Rmd echo status
-      if: ${{ github.event.inputs.modify-chunk == 'true' }}
       run: |
-        python build/modifmd.py
+        if [[ "${{inputs.echo-all-chunk}}" == "all" ]]; then
+          echo "Printing all python chunk"
+          python build/modifmd.py
+        else
+          echo "Skipping this step"
+        fi
       shell: bash
 #    - uses: actions/download-artifact@v2
 #      with:
