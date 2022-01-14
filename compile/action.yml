@@ -5,7 +5,7 @@ inputs:
     description: 'Name of the directory that should be built'
     required: true
     default: 'manipulation'
- echo-all-chunk:
+  echo-all-chunk:
     description: 'Should we modify some options to print more chunks'
     required: false
     default: "no"

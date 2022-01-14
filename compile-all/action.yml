@@ -9,7 +9,7 @@ inputs:
     description: 'Should we modify some options to print more chunks'
     required: false
     default: false
- echo-all-chunk:
+  echo-all-chunk:
     description: 'Should we modify some options to print more chunks'
     required: false
     default: "no"
