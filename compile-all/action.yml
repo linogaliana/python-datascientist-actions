@@ -9,10 +9,10 @@ inputs:
     description: 'Should we modify some options to print more chunks'
     required: false
     default: false
-  suffix:
-    description: 'Suffix for the artifacts'
+ echo-all-chunk:
+    description: 'Should we modify some options to print more chunks'
     required: false
-    default: ''
+    default: "no"
   script-name:
     description: 'R script name to build .md'
     required: false
@@ -42,9 +42,13 @@ runs:
           conda list
         shell: bash
       - name: Modif Rmd echo status
-        if: ${{ github.event.inputs.modify-chunk == 'true' }}
         run: |
-         python build/modifmd.py
+          if [[ "${{inputs.echo-all-chunk}}" == "yes" ]]; then
+            echo "Printing all python chunk"
+            python build/modifmd.py
+          else
+            echo "Skipping this step"
+          fi
         shell: bash
       - name: Remove files if needed
         run: |

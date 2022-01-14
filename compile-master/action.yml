@@ -37,11 +37,6 @@ runs:
         conda info
         conda list
       shell: bash
-    - name: Modif Rmd echo status
-      if: ${{ github.event.inputs.modify-chunk == 'true' }}
-      run: |
-        python build/modifmd.py
-      shell: bash
     - name: List files
       run: |
         echo "Pipeline running on master"

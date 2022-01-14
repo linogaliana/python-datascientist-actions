@@ -43,7 +43,7 @@ runs:
         suffix: ${{ inputs.suffix }}
     - name: Modif Rmd echo status
       run: |
-        if [[ "${{inputs.echo-all-chunk}}" == "all" ]]; then
+        if [[ "${{inputs.echo-all-chunk}}" == "yes" ]]; then
           echo "Printing all python chunk"
           python build/modifmd.py
         else
