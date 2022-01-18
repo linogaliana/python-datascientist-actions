@@ -36,11 +36,13 @@ runs:
         run: |
          pwd
          ls ./content
-         cp -R ./content/course ./content/temp
-         cd ./content/temp
+         cp -R ./content/course ./content/temp/course
+         cd ./content/temp/course
          pip install jupytext
+         #for i in $(find . -type f \( -iname "*.Rmd" \)); do \
          for i in $(find . -type f \( -iname "*.Rmd" \)); do \
-            j="${i%.Rmd}.md" ;
+            #j="${i%.Rmd}.md" ;
+            j = $i ;
             echo "$j" ;
             if [ -e $j ]
             then
