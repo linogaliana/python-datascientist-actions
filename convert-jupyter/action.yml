@@ -35,6 +35,7 @@ runs:
       - name: Convert in ipynb with Jupytext
         run: |
          pwd
+         mkdir -p ./content/temp/course
          ls ./content
          cp -R ./content/course ./content/temp/course
          cd ./content/temp/course
