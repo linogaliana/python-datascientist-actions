@@ -53,8 +53,8 @@ runs:
               k="${j%.md}.ipynb" ;
             fi            
          done
-         mkdir -p ../../../${{ inputs.directory-name }}/content
-         cp -R . ../../../${{ inputs.directory-name }}
+         mkdir -p ../../${{ inputs.directory-name }}/content
+         cp -R . ../../${{ inputs.directory-name }}
          cd ../..
          pwd
          find ./${{ inputs.directory-name }}/content -name "*.ipynb" -type f
