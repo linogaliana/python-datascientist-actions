@@ -57,7 +57,7 @@ runs:
          cp -R . ../../../${{ inputs.directory-name }}
          cd ../../..
          pwd
-         find ./${{ inputs.directory-name }}/content -name "*.ipynb" -type f
+         find ./${{ inputs.directory-name }} -name "*.ipynb" -type f
         shell: bash
       - uses: actions/upload-artifact@v2
         with:
