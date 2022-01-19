@@ -41,7 +41,7 @@ runs:
          cd ./content/temp/course
          pip install jupytext
          #for i in $(find . -type f \( -iname "*.Rmd" \)); do \
-         for i in $(find . -type f \( -iname "*.Rmd" \)); do \
+         for i in $(find . -type f \( -iname "*.md" \)); do \
             #j="${i%.Rmd}.md" ;
             j="$i" ;
             echo "$j" ;
@@ -53,8 +53,8 @@ runs:
               k="${j%.md}.ipynb" ;
             fi            
          done
-         mkdir -p ../../${{ inputs.directory-name }}/content
-         cp -R . ../../${{ inputs.directory-name }}
+         mkdir -p ../../../${{ inputs.directory-name }}/content
+         cp -R . ../../../${{ inputs.directory-name }}
          cd ../..
          pwd
          find ./${{ inputs.directory-name }}/content -name "*.ipynb" -type f
