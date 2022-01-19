@@ -43,7 +43,7 @@ runs:
          #for i in $(find . -type f \( -iname "*.Rmd" \)); do \
          for i in $(find . -type f \( -iname "*.Rmd" \)); do \
             #j="${i%.Rmd}.md" ;
-            j = $i ;
+            j="$i" ;
             echo "$j" ;
             if [ -e $j ]
             then
