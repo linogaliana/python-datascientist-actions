@@ -72,7 +72,7 @@ runs:
          # git config user.email github-actions@github.com
          #git checkout ${BRANCHE_REF}
          git status
-         find . -name "*.ipynb" | xargs git add
+         find ./${{ inputs.directory-name }} -name "*.ipynb" | xargs git add
          git commit -m "Automated changes";
          git pull
          git push
