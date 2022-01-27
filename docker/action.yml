@@ -38,7 +38,12 @@ inputs:
 runs:
   using: "composite"
   steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{github.event.pull_request.head.repo.full_name}}
       -
         name: Set up QEMU
 #        if: ${{ github.repository == ${{ inputs.github-repository }} }}
@@ -57,7 +62,7 @@ runs:
       - 
         name: Rename file
         run: |
-          mv ${{ inputs.environment-yaml-path }} environment.yml
+          cp ${{ inputs.environment-yaml-path }} environment.yml
         shell: bash
       -
         name: Build and push
