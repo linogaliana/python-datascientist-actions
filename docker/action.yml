@@ -75,7 +75,9 @@ runs:
           file: ${{ inputs.dockerfile-path }}
           push: true
           tags: ${{ inputs.docker-image }}
-          build-args: download_nlp=${{ inputs.download-nlp }}
+          build-args: |
+            download_nlp=${{ inputs.download-nlp }}
+            yaml_path=${{ inputs.yaml-path }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
