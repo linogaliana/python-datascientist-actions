@@ -1,73 +1,24 @@
 name: Build and Push Notebooks
 description: |
-  Render notebooks from Quarto, and push to another repo.
+  Render Quarto notebooks, organize them, and push to another repository.
 inputs:
   destination-repository-name:
-    description: Target repository name
+    description: Name of the target repo to push notebooks to
     required: true
   echo:
-    description: "Set to true to enable -M echo:true when rendering"
+    description: Set to true to pass -M echo:true to quarto render
     required: false
     default: "false"
 runs:
   using: "composite"
   steps:
-    - name: Prepare directory (and remove some files failing)
-      shell: bash
-      run: |
-        rm _quarto.yml
-        cp _quarto-prod.yml _quarto.yml
-
-        # Remove files not building in ipynb
-        rm index.qmd
-        rm -rf content/git/
-        rm content/annexes/evaluation.qmd
-
-    - name: Convert to ipynb with Quarto
+    - name: Run build_and_push script
       shell: bash
       env:
         API_INPI_USERNAME: ${{ env.API_INPI_USERNAME }}
         API_INPI_PASSWORD: ${{ env.API_INPI_PASSWORD }}
-      run: |
-        export QUARTO_PROFILE=fr,en
-        if [[ "${{ inputs.echo }}" == "true" ]]; then
-          ECHO_FLAG="-M echo:true"
-        else
-          ECHO_FLAG=""
-        fi
-
-        uv run quarto render --profile fr --to ipynb --execute $ECHO_FLAG
-        uv run quarto render --profile en --to ipynb --execute $ECHO_FLAG
-
-    - name: Move to expected directory
-      shell: bash
-      env:
-        API_INPI_USERNAME: ${{ env.API_INPI_USERNAME }}
-        API_INPI_PASSWORD: ${{ env.API_INPI_PASSWORD }}
-      run: |
-        mkdir -p temp_notebooks
-        mkdir -p temp_notebooks/notebooks
-        uv run build/move_files.py --direction temp_notebooks/notebooks
-
-    - uses: actions/upload-artifact@v4
-      with:
-        name: Source enonce
-        path: content/
-
-    - uses: actions/upload-artifact@v4
-      with:
-        name: Enonces
-        path: temp_notebooks/notebooks/
-
-    - name: Pushes to another repository
-      uses: linogaliana/github-action-push-to-another-repository@main
-      env:
         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-      with:
-        source-directory: 'temp_notebooks/'
-        destination-repository-username: 'linogaliana'
-        destination-repository-name: ${{ inputs.destination-repository-name }}
-        user-email: lino.galiana@insee.fr
-        destination-github-username: linogaliana
-        create-target-branch-if-needed: true
-        reset-repo: true
+      run: |
+        bash "${{ github.action_path }}/scripts/build_and_push.sh" \
+          "${{ inputs.destination-repository-name }}" \
+          "${{ inputs.echo }}"
