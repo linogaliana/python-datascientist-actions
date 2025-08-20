@@ -1,32 +1,38 @@
-name: Build and Push Notebooks
+name: Build and push notebooks
 description: |
-  Render Quarto notebooks, organize them, and push to another repository.
+  Convert Quarto files to executed .ipynb, then push them to another repository using a prebuilt action.
+
 inputs:
   destination-repository-name:
-    description: Name of the target repo to push notebooks to
+    description: Name of the destination GitHub repository
     required: true
   echo:
-    description: Set to true to pass -M echo:true to quarto render
+    description: Whether to pass -M echo:true to quarto render
     required: false
     default: "false"
+
 runs:
   using: "composite"
   steps:
-    - name: Run build_and_push script
+
+    - name: Build notebooks
       shell: bash
       run: |
-        bash "${{ github.action_path }}/scripts/build_and_push.sh" \
-          "${{ inputs.destination-repository-name }}" \
+        bash "${{ github.action_path }}/scripts/build_notebooks.sh" \
           "${{ inputs.echo }}"
-    - name: Pushes to another repository
+      env:
+        API_INPI_USERNAME: ${{ env.API_INPI_USERNAME }}
+        API_INPI_PASSWORD: ${{ env.API_INPI_PASSWORD }}
+
+    - name: Push notebooks to destination repo
       uses: linogaliana/github-action-push-to-another-repository@main
       with:
         source-directory: 'temp_notebooks/'
         destination-repository-username: 'linogaliana'
-        destination-repository-name: '{{ inputs.destination-repository-name }}'
+        destination-repository-name: ${{ inputs.destination-repository-name }}
         destination-github-username: 'linogaliana'
         user-email: 'lino.galiana@insee.fr'
         create-target-branch-if-needed: true
         reset-repo: true
       env:
-        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        API_TOKEN_GITHUB: ${{ env.API_TOKEN_GITHUB }}
