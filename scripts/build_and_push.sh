@@ -30,15 +30,3 @@ echo "::group::📦 Moving files"
 mkdir -p temp_notebooks/notebooks
 uv run build/move_files.py --direction temp_notebooks/notebooks
 echo "::endgroup::"
-
-echo "::group::🚀 Pushing notebooks to $DEST_REPO_NAME"
-uv run github-action-push-to-another-repository \
-  --source-directory temp_notebooks/ \
-  --destination-repository-username linogaliana \
-  --destination-repository-name "$DEST_REPO_NAME" \
-  --destination-github-username linogaliana \
-  --user-email lino.galiana@insee.fr \
-  --create-target-branch-if-needed \
-  --reset-repo \
-  --token "$API_TOKEN_GITHUB"
-echo "::endgroup::"

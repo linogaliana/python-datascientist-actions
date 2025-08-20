@@ -18,3 +18,15 @@ runs:
         bash "${{ github.action_path }}/scripts/build_and_push.sh" \
           "${{ inputs.destination-repository-name }}" \
           "${{ inputs.echo }}"
+    - name: Pushes to another repository
+      uses: linogaliana/github-action-push-to-another-repository@main
+      with:
+        source-directory: 'temp_notebooks/'
+        destination-repository-username: 'linogaliana'
+        destination-repository-name: '{{ inputs.destination-repository-name }}'
+        destination-github-username: 'linogaliana'
+        user-email: 'lino.galiana@insee.fr'
+        create-target-branch-if-needed: true
+        reset-repo: true
+      env:
+        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
