@@ -33,12 +33,6 @@ uv run build/move_files.py --direction temp_notebooks/notebooks
 echo "::endgroup::"
 
 
-echo "::group::📤 Uploading artifacts"
-gh run upload-artifact --name "Source enonce" content/
-gh run upload-artifact --name "Enonces" temp_notebooks/notebooks/
-echo "::endgroup::"
-
-
 echo "::group::🔁 Pushing to ${DEST_REPO_NAME}"
 gh workflow run linogaliana/github-action-push-to-another-repository@main \
   --repo linogaliana/"$DEST_REPO_NAME" \
