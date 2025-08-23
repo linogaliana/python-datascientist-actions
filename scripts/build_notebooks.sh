@@ -29,4 +29,12 @@ echo "::endgroup::"
 echo "::group::📦 Moving files"
 mkdir -p temp_notebooks/notebooks
 uv run build/move_files.py --direction temp_notebooks/notebooks
+
+echo "::group::📦 Cleaning notebooks"
+uvx nb-clean
+find temp_notebooks/notebooks/ -type f -name "*.ipynb" -exec nb-clean clean \
+  --remove-empty-cells \
+  --preserve-cell-outputs \
+  --preserve-notebook-metadata \
+  {} \;
 echo "::endgroup::"
