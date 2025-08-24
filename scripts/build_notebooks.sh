@@ -31,8 +31,8 @@ mkdir -p temp_notebooks/notebooks
 uv run build/move_files.py --direction temp_notebooks/notebooks
 
 echo "::group::📦 Cleaning notebooks"
-uvx nb-clean
-find temp_notebooks/notebooks/ -type f -name "*.ipynb" -exec nb-clean clean \
+uv sync
+find temp_notebooks/notebooks/ -type f -name "*.ipynb" -exec uv run nb-clean clean \
   --remove-empty-cells \
   --preserve-cell-outputs \
   --preserve-notebook-metadata \
