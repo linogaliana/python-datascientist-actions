@@ -17,8 +17,10 @@ echo "::endgroup::"
 echo "::group::🚀 Converting to ipynb"
 export QUARTO_PROFILE=fr,en
 if [ "$ECHO" == "true" ]; then
+  echo "Parameters echo has been set to true"
   ECHO_FLAG="-M echo:true"
 else
+  echo "echo parameter has been ignored"
   ECHO_FLAG=""
 fi
 
