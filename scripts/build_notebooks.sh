@@ -42,8 +42,8 @@ find temp_notebooks/notebooks/ -type f -name "*.ipynb" -exec uv run nb-clean cle
 echo "::endgroup::"
 
 echo "::group::🧼 Cleaning admonitions (Tip/Note/...)"
-if [ -f "_extensions/linogaliana/clean.py" ]; then
-  echo "Found _extensions/linogaliana/clean.py, running notebook cleanup on _site/"
+if [ -f "_extensions/linogaliana/callout/clean.py" ]; then
+  echo "Found _extensions/linogaliana/callout/clean.py, running notebook cleanup on _site/"
   uv run _extensions/linogaliana/clean.py _site/ --replace
 else
   echo "No _extensions/linogaliana/clean.py found, skipping admonition cleaning."
