@@ -4,6 +4,7 @@ set -e
 DEST_REPO_NAME="$1"
 ECHO="$2"
 
+
 echo "::group::🧹 Preparing directory"
 rm _quarto.yml
 cp _quarto-prod.yml _quarto.yml
@@ -44,7 +45,7 @@ echo "::endgroup::"
 echo "::group::🧼 Cleaning admonitions (Tip/Note/...)"
 if [ -f "_extensions/linogaliana/callout/clean.py" ]; then
   echo "Found _extensions/linogaliana/callout/clean.py, running notebook cleanup on _site/"
-  uv run _extensions/linogaliana/callout/clean.py _site/ --replace --verbose 
+  uv run _extensions/linogaliana/callout/clean.py temp_notebooks/notebooks --replace --verbose 
 else
   echo "No _extensions/linogaliana/clean.py found, skipping admonition cleaning."
 fi
