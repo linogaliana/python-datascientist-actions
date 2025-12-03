@@ -19,7 +19,7 @@ runs:
       shell: bash
       run: |
         bash "${{ github.action_path }}/scripts/build_notebooks.sh" \
-          "${{ inputs.echo }}" "${{ inputs.destination-repository-name }}"
+          "${{ inputs.echo }}"
       env:
         API_INPI_USERNAME: ${{ env.API_INPI_USERNAME }}
         API_INPI_PASSWORD: ${{ env.API_INPI_PASSWORD }}
